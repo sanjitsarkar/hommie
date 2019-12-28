@@ -1,0 +1,21 @@
+
+          $this->validate($request,
+          [
+  'bed' => 'required',
+  'booked' => 'required',
+  'img' => 'required|image',
+          ]);
+  $name = $hostel_name;
+  if($request->hasFile('img'))
+  {
+  $img = $request->img;
+  $img_new_name = time().$img->getClientOriginalName();
+  $img->move('app/uploads/hostels/'.$name.'/'.$id,$img_new_name);
+  }
+
+  $room = Room::all();
+  $room->room_no = $id;
+  $room->total_bed = $request->bed;
+  $room->booked_bed = $request->booked;
+  $room->img = 'app/uploads/hostels/'.$name.'/'.$id.'/'.$img_new_name;
+  $room->save();
